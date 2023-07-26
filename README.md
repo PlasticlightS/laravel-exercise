@@ -1,66 +1,140 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1 align="center">
+Assessment for Senior Laravel Developer
+</h1>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Output**: All tasks should be committed to a Github repo, using best practices for commits. Once complete, please email a link to the repository to mbowyer@tariffcom.com. If you have created a private repository, please add mchlbwyr as a contributor.
 
-## About Laravel
+## Level 1
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Goals
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [ ] Implement Laravel’s default login features using Laravel Breeze
+- [ ] Develop User CRUD functionalities using Tailwind styling
+- [ ] Add Validation rules to the User CRUD
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Prerequisites
 
-## Learning Laravel
+Base the user migration file on the following table:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```mysql
+mysql> show columns from users;
++-------------------+-----------------+------+-----+---------+----------------+
+| Field             | Type            | Null | Key | Default | Extra          |
++-------------------+-----------------+------+-----+---------+----------------+
+| id                | bigint unsigned | NO   | PRI | NULL    | auto_increment |
+| prefixname        | varchar(255)    | YES  |     | NULL    |                |
+| firstname         | varchar(255)    | NO   |     | NULL    |                |
+| middlename        | varchar(255)    | YES  |     | NULL    |                |
+| lastname          | varchar(255)    | NO   |     | NULL    |                |
+| suffixname        | varchar(255)    | YES  |     | NULL    |                |
+| email             | varchar(255)    | NO   | UNI | NULL    |                |
+| password          | varchar(255)    | NO   |     | NULL    |                |
+| photo             | text            | YES  |     | NULL    |                |
+| type              | varchar(255)    | YES  | MUL | user    |                |
+| remember_token    | varchar(100)    | YES  |     | NULL    |                |
+| email_verified_at | timestamp       | YES  |     | NULL    |                |
+| created_at        | timestamp       | YES  |     | NULL    |                |
+| updated_at        | timestamp       | YES  |     | NULL    |                |
+| deleted_at        | timestamp       | YES  |     | NULL    |                |
++-------------------+-----------------+------+-----+---------+----------------+
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+<br>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Instructions
 
-## Laravel Sponsors
+1. Start a new project in Laravel 10
+1. Implement the default login feature using the [laravel/breeze](https://laravel.com/docs/10.x/starter-kits#laravel-breeze) package using the Inertia stack with Vue.
+1. Add a page to list all users (users.index) in a table.
+1. Add a page to display a single user (users.show).
+1. Add a page to display the form to create a new user (users.create).
+1. Add a page to edit a user (users.edit / users.update).
+1. Add a button to delete a user (users.destroy).
+1. Add a page to list all soft deleted users (users.trashed).
+1. Add a button to restore a soft deleted user (users.restore).
+1. Add a button to permanently delete a soft deleted user (users.delete).
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+<br>
 
-### Premium Partners
+### ✎ Notes
+- All users routes must implement the `auth` middleware.
+- The value for `prefixname` should only be one in `[Mr, Mrs, Ms]`.
+- Use your best judgment in declaring the validation rules for the fields.
+- Use TailwindCSS to style any pages and components you create.
+<br>
+<br>
+<br>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## Level 2
 
-## Contributing
+### Goals
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- [ ] Generate a table called <code>details</code> to save additional user background information
+- [ ] Implement an event called <code>UserSaved</code> triggered when a user is created or updated
+- [ ] Implement a listener that auto-saves additional user details when the <code>UserSaved</code> event is triggered
 
-## Code of Conduct
+### Instructions
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. Create a migration file for a table called `details`. Use the following table for reference on the columns:
+	```mysql
+	mysql> show columns from details;
+	+------------+-----------------+------+-----+---------+----------------+
+	| Field      | Type            | Null | Key | Default | Extra          |
+	+------------+-----------------+------+-----+---------+----------------+
+	| id         | bigint unsigned | NO   | PRI | NULL    | auto_increment |
+	| key        | varchar(255)    | NO   | MUL | NULL    |                |
+	| value      | text            | YES  |     | NULL    |                |
+	| icon       | varchar(255)    | YES  |     | NULL    |                |
+	| status     | varchar(255)    | NO   |     | 1       |                |
+	| type       | varchar(255)    | YES  |     | detail  |                |
+	| user_id    | bigint unsigned | YES  | MUL | NULL    |                |
+	| created_at | timestamp       | YES  |     | NULL    |                |
+	| updated_at | timestamp       | YES  |     | NULL    |                |
+	+------------+-----------------+------+-----+---------+----------------+
+	```
+1. Generate an Eloquent Model file `app/Detail.php`.
+1. Assign a one-to-many relationship between `App\User` model and `App\Detail` model.
+1. Create an Event and listener on the `App\User` Eloquent Model's `saved` event.
+	1. The listener should save to a table called `details` the following information:
+		1. The user's full name based on `firstname`, `middlename`, and `lastname`.
+		1. The user's middle initial based on abbreviating the `middlename`.
+		1. The user's avatar based on a given `photo`
+		1. The user's gender based on the value of `prefixname`.
+		<details>
+		<summary>Example data:</summary>
 
-## Security Vulnerabilities
+        For a user with attributes of:
+		```php
+		{
+			id: 1,
+			prefixname: "Mr.",
+			firstname: "Juan",
+			middlename: "Palito",
+			lastname: "dela Cruz",
+			suffixname: "Jr.",
+			email: "juan@demo.ph",
+			photo: null,
+			type: "user",
+		}
+		```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+		The saved data should be:
 
-## License
+		```mysql
+		mysql> select `id`,`key`,`value`,`type`,`user_id` from details;
+		+----+-----------------+-------------------+--------+---------+
+		| id | key             | value             | type   | user_id |
+		+----+-----------------+-------------------+--------+---------+
+		|  1 | Full name       | Juan P. dela Cruz | bio    |       1 |
+		|  2 | Middle Initial  | P.                | bio    |       1 |
+		|  3 | Avatar          | http://localho... | bio    |       1 |
+		|  4 | Gender          | Male              | bio    |       1 |
+		+----+-----------------+-------------------+--------+---------+
+		```
+		</details>
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<br>
+
+### ✎ Notes
+
+- The column `details.user_id` must be a foreign key that references `users.id` and cascades on `DELETE` and `UPDATE`
