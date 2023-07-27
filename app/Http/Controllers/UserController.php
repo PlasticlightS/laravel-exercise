@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserSaved;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -25,7 +26,7 @@ class UserController extends Controller
             'mustVerifyEmail' => false,
             'status' => session('status'),
             'trashed' => false,
-            'users' => User::paginate(1)->map(fn($user) => [
+            'users' => User::all()->map(fn($user) => [
                 'id' => $user->id,
                 'firstname' => $user->firstname,
                 'lastname' => $user->lastname,
@@ -58,6 +59,7 @@ class UserController extends Controller
         ]);
 
         event(new Registered($user));
+        event(new UserSaved($user));
 
         return redirect(route('users.edit', $user));
     }
@@ -92,13 +94,15 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $request->user()->fill($request->validated());
+        $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
+
+        event(new UserSaved(User::findOrFail($user->id)));
 
         return redirect(route('users.edit', $user));
     }

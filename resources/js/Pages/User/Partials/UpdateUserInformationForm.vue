@@ -28,6 +28,7 @@ const form = useForm({
     suffixname: user.suffixname,
     email: user.email,
     photo: user.photo,
+    id: user.id,
 });
 </script>
 
