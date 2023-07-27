@@ -2,32 +2,95 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class UserController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Display a listing of the resource.
      */
-    public function edit(Request $request): Response
+    public function index()
     {
-        return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+        return Inertia::render('User/Index', [
+            'mustVerifyEmail' => false,
+            'status' => session('status'),
+            'trashed' => false,
+            'users' => User::paginate(1)->map(fn($user) => [
+                'id' => $user->id,
+                'firstname' => $user->firstname,
+                'lastname' => $user->lastname,
+                'email' => $user->email,
+            ]),
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return Inertia::render('User/Create', [
+            'mustVerifyEmail' => false,
             'status' => session('status'),
         ]);
     }
 
     /**
-     * Update the user's profile information.
+     * Store a newly created resource in storage.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function store(StoreUserRequest $request)
+    {
+        $user = User::create([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        event(new Registered($user));
+
+        return redirect(route('users.edit', $user));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(User $user)
+    {
+        return Inertia::render('User/Show', [
+            'mustVerifyEmail' => false,
+            'status' => session('status'),
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(User $user)
+    {
+        return Inertia::render('User/Edit', [
+            'user' => $user,
+            'submitRoute' => route('users.update', $user),
+            'mustVerifyEmail' => $user instanceof MustVerifyEmail,
+            'status' => session('status'),
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateUserRequest $request, User $user)
     {
         $request->user()->fill($request->validated());
 
@@ -37,27 +100,49 @@ class UserController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit');
+        return redirect(route('users.edit', $user));
     }
 
     /**
-     * Delete the user's account.
+     * Display a listing of the resources deleted items.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function trashed()
     {
-        $request->validate([
-            'password' => ['required', 'current_password'],
+        return Inertia::render('User/Index', [
+            'mustVerifyEmail' => false,
+            'status' => session('status'),
+            'users' => User::onlyTrashed()->get(),
+            'trashed' => true,
         ]);
+    }
 
-        $user = $request->user();
-
-        Auth::logout();
-
+    /**
+     * Soft delete the specified resource from storage.
+     */
+    public function destroy(User $user)
+    {
         $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        return redirect(route('users.index'));
+    }
 
-        return Redirect::to('/');
+    /**
+     * Restore the specified resource to storage.
+     */
+    public function restore(int $id)
+    {
+        User::withTrashed()->where('id', $id)->restore();
+
+        return redirect(route('users.index'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function delete(int $id)
+    {
+        User::withTrashed()->where('id', $id)->forceDelete();
+
+        return redirect(route('users.index'));
     }
 }
