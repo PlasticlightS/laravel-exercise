@@ -34,7 +34,7 @@ class UpdateUserRequest extends FormRequest
             'middlename' => ['string', 'nullable', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'suffixname' => ['string', 'nullable', 'max:255'],
-            'name' => ['string', 'max:255'],
+            'photo' => ['url', 'nullable'],
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->request->get('id'))],
         ];
     }

@@ -134,21 +134,20 @@ const form = useForm({
                 <InputError class="mt-2" :message="form.errors.suffixname" />
             </div>
 
-<!--            <div>
+            <div>
                 <InputLabel for="photo" value="Photo" />
 
-                <ImageInput
-                    id="suffixname"
+                <TextInput
+                    id="photo"
                     type="text"
                     class="mt-1 block w-full"
-                    v-model="form.suffixname"
-                    required
+                    v-model="form.photo"
                     autofocus
-                    autocomplete="suffixname"
+                    autocomplete="photo"
                 />
 
-                <InputError class="mt-2" :message="form.errors.suffixname" />
-            </div>-->
+                <InputError class="mt-2" :message="form.errors.photo" />
+            </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">

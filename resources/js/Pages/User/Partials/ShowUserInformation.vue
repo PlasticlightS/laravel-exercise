@@ -73,7 +73,7 @@ const user = usePage().props.user;
                                 <td class="w-1/4 py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     Photo</td>
                                 <td class="py-4 px-6 font-bold text-gray-900 whitespace-nowrap dark:text-white">
-                                    <img class="w-48 h-48" src="{{ user.photo }}"></td>
+                                    <img class="w-48 h-48" :src="user.photo"></td>
                             </tr>
                             </tbody>
                         </table>
